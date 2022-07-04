@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Video
+{% endblock %}
+{% block active_video %}active{% endblock %}
+{% block content %}
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">VIDEO</h1>
+        <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page
+            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+            of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+        <form action="{% url 'home:home_results_video' %}"
+              enctype="multipart/form-data"
+              onSubmit="if(document.getElementById('file-upload').value == '') {location.reload(); return false;}"
+              method="post">
+            {% csrf_token %}
+
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <label id="btn_load" for="file-upload_video" class="btn btn-lg btn-secondary">
+                <i class="fa fa-cloud-upload"></i><span class="btn-text"> Chọn Video</span>
+            </label>
+            <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+            <input onchange="submit();" id="file-upload_video" name='imageFile_video' type="file"
+                   style="display:none;"/>
+        </form>
+        <div class="spinner-border">
+            {% if name_video %}
+                <h5 class="card-title mb-20">Kết quả</h5>
+                <ul class="list-group">
+                    {% for name in list_name_conf %}
+                        <li class="list-group-item">{{ name.name }}-----{{ name.conf }}</li>
+                    {% endfor %}
+
+                </ul>
+                <a href="{% url 'home:download_video' name_video %}"> Tải video </a>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Trigger the modal with a button -->
+    {#    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>#}
+
+    <script type="text/javascript">
+        $('#file-upload_video').change(function () {
+            $(".fa-spinner").show();
+            var i1 = $(this).prev('label').clone();
+            var file1 = $('#file-upload_video')[0].files[0].name;
+            $('#btn_load').html(file1)
+        });
+
+        axios.post({% url 'home:home_results_img' %})
+        .then(e=>{
+            console.log(e)
+        })
+    </script>
+{% endblock %}
+

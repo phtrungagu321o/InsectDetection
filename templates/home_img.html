@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Ảnh
+{% endblock %}
+{% block active_img %}active{% endblock %}
+{% block content %}
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">IMAGE</h1>
+        <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+        <form action="{% url 'home:home_results_img' %}"
+              enctype="multipart/form-data"
+              onSubmit="if(document.getElementById('file-upload').value == '') {location.reload(); return false;}"
+              method="post">
+            <div class="form-group">
+                {% csrf_token %}
+                <label for="file-upload" class="btn btn-lg btn-secondary">
+                    <i class="fa fa-cloud-upload"></i> Chọn ảnh
+                </label>
+                <input onchange="submit();" id="file-upload" name='imageFile' type="file" style="display:none;"/>
+            </div>
+        </form>
+        {% if name_path %}
+            <h5 class="card-title mb-20">Kết quả tìm kiếm</h5>
+            <h6 class="card-subtitle mb-20 text-muted ">{{ message }}<a href="#">{{ label }}</a></h6>
+            <img id="myImage" class="img-fluid rounded" src="{% static '' %}{{ name_path }}" alt="">
+        {% endif %}
+    </main>
+
+
+    <script>
+        $('#file-upload').change(function () {
+            var i = $(this).prev('label').clone();
+            var file = $('#file-upload')[0].files[0].name;
+            $(this).prev('label').text(file);
+        });
+        $(document).ready(function () {
+            $("img").click(function () {
+                // Change src attribute of image
+                $(this).attr("src", "{% static '' %}{{ path_crop }}");
+            });
+        });
+    </script>
+{% endblock %}
+

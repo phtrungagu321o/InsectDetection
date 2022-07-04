@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Webcam
+{% endblock %}
+{% block active_webcam %}active{% endblock %}
+{% block content %}
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">WEBCAM</h1>
+        <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+        <img class="img-fluid rounded" src="{% url 'home:video_feed' %}" alt="">
+    </main>
+
+{% endblock %}
